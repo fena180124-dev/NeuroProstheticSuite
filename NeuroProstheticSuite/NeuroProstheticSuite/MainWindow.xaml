@@ -1,0 +1,226 @@
+﻿<Window x:Class="NeuroProstheticSuite.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="AI-Enhanced Prosthetic Monitoring" Height="720" Width="1280"
+        Background="#1E1E1E" Foreground="White" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock" x:Key="HeaderStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="SubHeaderStyle">
+            <Setter Property="Foreground" Value="#CCCCCC"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <Style x:Key="ModernNavButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="10,8"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#3E3E42"/>
+                                <Setter Property="Foreground" Value="#00BFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#4C4C50"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="#2D2D30" Padding="15">
+            <StackPanel>
+                <TextBlock Text="PROSTHETIC SUITE"
+                   FontSize="18"
+                   FontWeight="ExtraBold"
+                   Margin="0,0,0,40"
+                   Foreground="#00BFFF"/>
+
+                <Button Content="Dashboard Sinyal (Real-Time)"
+                Style="{StaticResource ModernNavButton}"
+                Click="NavigateToDashboard"
+                x:Name="btnDashboard"/>
+
+                <Button Content="Analisis Statis &amp; 3D Konsep"
+                Style="{StaticResource ModernNavButton}"
+                Click="NavigateToStaticAnalysis"
+                x:Name="btnStaticAnalysis"/>
+
+                <Button Content="Pemodelan Kontrol"
+                Style="{StaticResource ModernNavButton}"
+                Click="NavigateToPlaceholder"
+                x:Name="btnModeling"/>
+
+                <Button Content="Statistik (FSR &amp; Suhu)"
+                Style="{StaticResource ModernNavButton}"
+                Click="NavigateToPlaceholder"
+                x:Name="btnStatistics"/>
+            </StackPanel>
+        </Border>
+
+        <Grid x:Name="GridRealTimeDashboard" Grid.Column="1" Margin="25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="REAL-TIME NEURO-MUSCULAR MONITORING (SIMULATION)" Style="{StaticResource HeaderStyle}"/>
+
+            <Border Grid.Row="1" Background="#2D2D30" CornerRadius="10" Padding="20">
+                <StackPanel>
+                    <TextBlock Text="1. EEG/EMG FILTERED DATA" Style="{StaticResource SubHeaderStyle}"/>
+                    <Border Height="180" Background="#3E3E42" CornerRadius="6" Margin="0,5,0,15">
+                        <lvc:CartesianChart x:Name="ChartRawSignal" 
+                                            Series="{Binding RawSignalSeriesCollection}" 
+                                            LegendLocation="Right" DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}">
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Amplitude" Foreground="White" LabelFormatter="{Binding YFormatter}"/>
+                            </lvc:CartesianChart.AxisY>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Time (Samples)" Foreground="White" ShowLabels="False"/>
+                            </lvc:CartesianChart.AxisX>
+                        </lvc:CartesianChart>
+                    </Border>
+
+                    <TextBlock Text="2. EMG PROCESSED DATA (RMS)" Style="{StaticResource SubHeaderStyle}"/>
+                    <Border Height="180" Background="#3E3E42" CornerRadius="6">
+                        <lvc:CartesianChart x:Name="ChartRMS" 
+                                            Series="{Binding RmsSeriesCollection}" LegendLocation="Right" DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}">
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="RMS Value" Foreground="White" LabelFormatter="{Binding YFormatter}"/>
+                            </lvc:CartesianChart.AxisY>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Time (Samples)" Foreground="White" ShowLabels="False"/>
+                            </lvc:CartesianChart.AxisX>
+                        </lvc:CartesianChart>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Row="2" Margin="0,25,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="MODE:" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Text="SIMULASI OFFLINE" FontSize="16" FontWeight="Bold" Foreground="#FFD700" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="#2D2D30" CornerRadius="10" Padding="20" Margin="0,0,15,0">
+                        <StackPanel>
+                            <TextBlock Text="3. AI &amp; DIGITAL CONTROL OUTPUT" Style="{StaticResource SubHeaderStyle}"/>
+                            <TextBlock Text="Grip Classification: POWER GRASP" FontSize="18" Foreground="#FFD700" FontWeight="Bold" x:Name="txtGripClassification"/>
+                            <TextBlock Text="Adaptive Kp Parameter: 1.25" FontSize="16" Foreground="White" Margin="0,8,0,0" x:Name="txtKpValue"/>
+                            <TextBlock Text="System Error (e[n]): 0.04 (Stable)" FontSize="16" Foreground="White" Margin="0,5,0,0" x:Name="txtSystemError"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <StackPanel Grid.Column="1">
+                        <Border Background="#2D2D30" CornerRadius="10" Padding="15" Height="70" Margin="0,0,0,15">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="FSR Pressure: " FontSize="16" Foreground="#CCCCCC"/>
+                                <TextBlock Text="85%" FontSize="24" FontWeight="ExtraBold" Foreground="#3CB371" x:Name="txtPressureLevel"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="#2D2D30" CornerRadius="10" Padding="15" Height="70">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Temperature: " FontSize="16" Foreground="#CCCCCC"/>
+                                <TextBlock Text="28.5 °C" FontSize="24" FontWeight="ExtraBold" Foreground="#87CEEB" x:Name="txtTemperature"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="GridStaticAnalysis" Grid.Column="1" Margin="25" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="#2D2D30" CornerRadius="10" Padding="20" Margin="0,0,0,25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="VISUALISASI KONSEP PROSTETIK &amp; PENEMPATAN SENSOR"
+               FontSize="18" FontWeight="SemiBold" Foreground="#00BFFF" Margin="0,0,0,10"/>
+                        <Border Height="280" Background="#3E3E42" CornerRadius="8">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="[MODEL 3D: Lengan &amp; Tangan Prostetik]" FontSize="20" Foreground="#CCCCCC"/>
+                                <TextBlock Text="OpenBCI (EEG): Kepala | MyoWare (EMG): Lengan Bawah" FontSize="12" Foreground="#888888"/>
+                                <TextBlock Text="FSR &amp; TTP223: Jari-jari Genggaman | DS18B20: Wrist/Casing" FontSize="12" Foreground="#888888"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="20,0,0,0">
+                        <TextBlock Text="LEGEND SENSOR" FontSize="16" FontWeight="Bold" Foreground="#CCCCCC" Margin="0,0,0,10"/>
+                        <TextBlock Text="• EEG (OpenBCI) - Niat Gerakan" Foreground="#87CEEB"/>
+                        <TextBlock Text="• EMG (MyoWare) - Aktivasi Otot" Foreground="#3CB371"/>
+                        <TextBlock Text="• FSR402 - Feedback Tekanan Genggaman" Foreground="#FFD700"/>
+                        <TextBlock Text="• TTP223 - Sensor Sentuhan On/Off" Foreground="White"/>
+                        <TextBlock Text="• DS18B20 - Monitoring Suhu Lingkungan" Foreground="#87CEEB"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1" Background="#2D2D30" CornerRadius="10" Padding="20">
+                <StackPanel>
+                    <TextBlock Text="ANALISIS SPEKTRAL (FFT) STATIS PADA WINDOW 5 DETIK" FontSize="18" FontWeight="SemiBold" Foreground="#00BFFF" Margin="0,0,0,10"/>
+                    <lvc:CartesianChart x:Name="ChartStaticFFT" Height="250" DisableAnimations="True">
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Power Density (a.u.)" Foreground="White"/>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Frequency (Hz)" Foreground="White"/>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

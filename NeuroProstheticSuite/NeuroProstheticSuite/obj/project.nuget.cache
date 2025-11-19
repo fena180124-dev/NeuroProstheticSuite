@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "dgSpecHash": "B61Shio0qt4=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Irsyad\\source\\repos\\NeuroProstheticSuite\\NeuroProstheticSuite\\NeuroProstheticSuite.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Irsyad\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
+    "C:\\Users\\Irsyad\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",
+    "C:\\Users\\Irsyad\\.nuget\\packages\\livecharts.wpf.netcore3\\0.9.8\\livecharts.wpf.netcore3.0.9.8.nupkg.sha512",
+    "C:\\Users\\Irsyad\\.nuget\\packages\\mathnet.numerics\\5.0.0\\mathnet.numerics.5.0.0.nupkg.sha512",
+    "C:\\Users\\Irsyad\\.nuget\\packages\\mathnet.numerics.data.text\\5.0.0\\mathnet.numerics.data.text.5.0.0.nupkg.sha512",
+    "C:\\Users\\Irsyad\\.nuget\\packages\\mathnet.numerics.signed\\5.0.0\\mathnet.numerics.signed.5.0.0.nupkg.sha512",
+    "C:\\Users\\Irsyad\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'LiveCharts 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
+      "projectPath": "C:\\Users\\Irsyad\\source\\repos\\NeuroProstheticSuite\\NeuroProstheticSuite\\NeuroProstheticSuite.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Irsyad\\source\\repos\\NeuroProstheticSuite\\NeuroProstheticSuite\\NeuroProstheticSuite.csproj",
+      "libraryId": "LiveCharts",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'LiveCharts.Wpf 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
+      "projectPath": "C:\\Users\\Irsyad\\source\\repos\\NeuroProstheticSuite\\NeuroProstheticSuite\\NeuroProstheticSuite.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Irsyad\\source\\repos\\NeuroProstheticSuite\\NeuroProstheticSuite\\NeuroProstheticSuite.csproj",
+      "libraryId": "LiveCharts.Wpf",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    }
+  ]
+}
