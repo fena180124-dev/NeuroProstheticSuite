@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="NeuroProstheticSuite.StaticAnalysisView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="520" d:DesignWidth="900"
+             Background="Transparent">
+    <Grid Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="420"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left: Static signal plots -->
+        <StackPanel Grid.Column="0" Margin="12" Orientation="Vertical">
+            <TextBlock Text="Analisis Statis &amp; 3D Konsep (Dummy Static Signals)"
+                       FontSize="20" FontWeight="SemiBold" Foreground="LightGray" Margin="0,0,0,12"/>
+            <Border Background="#111" CornerRadius="6" Padding="12" Margin="0,0,0,12">
+                <StackPanel>
+                    <TextBlock Text="EMG - Static Example" Foreground="#DDD" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <Canvas x:Name="CanvasEmg" Height="180" Background="#0E0E0E" SnapsToDevicePixels="True"/>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#111" CornerRadius="6" Padding="12" Margin="0,0,0,12">
+                <StackPanel>
+                    <TextBlock Text="FSR - Static Grip Readings" Foreground="#DDD" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <Canvas x:Name="CanvasFsr" Height="120" Background="#0E0E0E" SnapsToDevicePixels="True"/>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#111" CornerRadius="6" Padding="12" Margin="0,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="Keterangan" Foreground="#DDD" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <TextBlock Text="- Sinyal dummy statis ditampilkan di atas (EMG &amp; FSR)." Foreground="#999" TextWrapping="Wrap"/>
+                    <TextBlock Text="- 3D concept memperlihatkan casing/forearm + jari + sensor markers." Foreground="#999" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                    <TextBlock Text="- Kontrol kamera: drag kiri = rotate, wheel = zoom, middle = pan. Gunakan slider zoom untuk kontrol presisi." Foreground="#999" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <!-- Right: 3D concept showing sensor placement (improved with 2D labels + connectors + zoom slider) -->
+        <Border Grid.Column="1" Background="#1B1B1B" CornerRadius="6" Padding="10" Margin="12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="3D Konsep Penempatan Sensor (Interaktif)" Foreground="LightGray" FontWeight="SemiBold" Margin="4"/>
+
+                <Grid Grid.Row="1">
+                    <!-- Viewport3D for 3D scene -->
+                    <Viewport3D x:Name="Viewport" ClipToBounds="True" Margin="4"
+                                MouseDown="Viewport_MouseDown"
+                                MouseUp="Viewport_MouseUp"
+                                MouseMove="Viewport_MouseMove"
+                                MouseWheel="Viewport_MouseWheel"
+                                MouseLeave="Viewport_MouseLeave">
+                        <!-- Camera (position managed by code-behind) -->
+                        <Viewport3D.Camera>
+                            <PerspectiveCamera x:Name="MainCamera" Position="3,2,5" LookDirection="-3,-1,-5" UpDirection="0,1,0" FieldOfView="45"/>
+                        </Viewport3D.Camera>
+
+                        <!-- Lights (static) -->
+                        <ModelVisual3D>
+                            <ModelVisual3D.Content>
+                                <AmbientLight Color="#999999"/>
+                            </ModelVisual3D.Content>
+                        </ModelVisual3D>
+                        <ModelVisual3D>
+                            <ModelVisual3D.Content>
+                                <DirectionalLight Color="#FFFFFF" Direction="-1,-1,-2"/>
+                            </ModelVisual3D.Content>
+                        </ModelVisual3D>
+                        <!-- 3D models added in code-behind -->
+                    </Viewport3D>
+
+                    <!-- Overlay canvas for 2D labels and connectors that track 3D sensor positions -->
+                    <Canvas x:Name="OverlayCanvas" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                    <!-- Legend overlay -->
+                    <Border VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="#00111111" Margin="8" Padding="8" Opacity="0.95" CornerRadius="4">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Rectangle Width="14" Height="14" Fill="#FFD700" Margin="0,0,8,0"/>
+                                <TextBlock Text="FSR (finger sensor)" Foreground="#DDD"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Rectangle Width="14" Height="14" Fill="#00BFFF" Margin="0,0,8,0"/>
+                                <TextBlock Text="TTP223 (touch)" Foreground="#DDD"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="14" Height="14" Fill="#FF69B4" Margin="0,0,8,0"/>
+                                <TextBlock Text="EMG (MyoWare placement)" Foreground="#DDD"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Simple help text overlay -->
+                    <Border VerticalAlignment="Top" HorizontalAlignment="Right" Background="#00111111" Margin="8" Padding="6" CornerRadius="4" Opacity="0.9">
+                        <TextBlock Text="Drag: rotate | Wheel: zoom | Middle: pan" Foreground="#EEE" FontSize="12"/>
+                    </Border>
+                </Grid>
+
+                <!-- Zoom slider for precise control -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8">
+                    <TextBlock Text="Zoom" Foreground="#DDD" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <Slider x:Name="SliderZoom" Minimum="0.6" Maximum="12" ValueChanged="SliderZoom_ValueChanged" Width="180" Value="4.8"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
